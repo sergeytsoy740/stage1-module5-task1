@@ -7,10 +7,14 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class InterfaceCreator {
 
     public static void main(String[] args) {
+
+
+
         InterfaceCreator interfaceCreator = new InterfaceCreator();
 
 
@@ -71,11 +75,16 @@ public class InterfaceCreator {
                 .collect(Collectors.toMap(Function.identity(), String::length));
     }
 
+//    public BiFunction<List<Integer>, List<Integer>, List<Integer>> concatList() {
+//        return (integers, integers2) -> {
+//            List<Integer> res = new ArrayList<>(integers);
+//            res.addAll(integers2);
+//            return res;
+//        };
+//    }
     public BiFunction<List<Integer>, List<Integer>, List<Integer>> concatList() {
-        return (integers, integers2) -> {
-            List<Integer> res = new ArrayList<>(integers);
-            res.addAll(integers2);
-            return res;
-        };
+        return (integers, integers2) -> Stream.of(integers, integers2)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 }
